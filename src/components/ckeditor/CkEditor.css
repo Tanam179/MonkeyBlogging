@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+@media print {
+	body {
+		margin: 0 !important;
+	}
+}
+
+.ck.ck-editor {
+	width: 100%;
+}
+
+.main-container {
+	font-family: 'Lato';
+	width: fit-content;
+	width: 100%;
+}
+
+.ck-content {
+	font-family: 'Lato';
+	line-height: 1.6;
+	word-break: break-word;
+	min-height: 500px;
+	font-family: 'Montserrat', sans-serif;
+}
+
+.ck-content figure.table.ck-widget{
+	width: 100%;
+}
+
+.ck.ck-editor__editable_inline p:not(:last-child), .ck.ck-editor__editable_inline figure:not(:last-child) {
+	margin-bottom: 10px;
+}
+
+.ck.ck-editor__editable_inline ul {
+	list-style: disc;
+	margin-left: 40px;
+	padding: 0;
+}
+
+.ck.ck-editor__editable_inline ul li {
+	margin-bottom: 10px;
+}
+
+.editor-container_classic-editor .editor-container__editor {
+	width: 100%;
+}
+
+.ck.ck-balloon-panel.ck-powered-by-balloon .ck.ck-powered-by {
+	display: none !important;
+}

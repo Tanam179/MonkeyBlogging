@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Logo from '../logo';
 import { NavLink } from 'react-router-dom';
 import Button from '../button/Button';
+import { useAuth } from '../../contexts/AuthContext';
 
 const HeaderStyles = styled.header`
     background-color: #fff;
@@ -53,8 +54,13 @@ const HeaderStyles = styled.header`
             }
         }
 
-        .header-button {
+        .header-button,
+        .header-auth {
             margin-left: 20px;
+        }
+
+        .header-auth strong {
+            color: ${(props) => props.theme.primary};
         }
     }
 `;
@@ -75,6 +81,7 @@ const menuList = [
 ];
 
 const Header = () => {
+    const { userInfor } = useAuth();
     return (
         <HeaderStyles>
             <div className="container">
@@ -124,9 +131,17 @@ const Header = () => {
                             </svg>
                         </span>
                     </div>
-                    <Button className="header-button" height="52px">
-                        Sign Up
-                    </Button>
+                    {!userInfor ? (
+                        <Button variation="primary" to="/login" type="button" className="header-button" height="52px">
+                            Login
+                        </Button>
+                    ) : (
+                        <div className="header-auth">
+                            <span>
+                                Welcome back, <strong>{userInfor?.displayName?.split(' ')?.at(-1) || ''}</strong>
+                            </span>
+                        </div>
+                    )}
                 </div>
             </div>
         </HeaderStyles>

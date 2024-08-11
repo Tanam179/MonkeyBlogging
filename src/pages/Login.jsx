@@ -51,17 +51,20 @@ const Login = () => {
     }, [errors]);
 
     useEffect(() => {
-        if(userInfor?.email) {
-            navigate('/')
+        if (userInfor?.email) {
+            navigate('/');
         }
-    }, [userInfor])
+    }, [userInfor]);
 
     const handleLogin = async function ({ email, password }) {
-        await signInWithEmailAndPassword(auth, email, password);
-        toast.success('Login successfully');
-        navigate('/');
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            toast.success('Login successfully');
+            navigate('/');
+        } catch (error) {
+            toast.error('Login unsuccessfully! Please check your email and password');
+        }
     };
-
 
     return (
         <Authentication>
@@ -93,7 +96,7 @@ const Login = () => {
                     <p>You dont have an account?</p>
                     <Link to="/sign-up">Sign up now.</Link>
                 </div>
-                <Button type="submit">{isSubmitting ? <LoadingSpinner /> : 'Login'}</Button>
+                <Button align="middle" variation="primary" type="submit">{isSubmitting ? <LoadingSpinner /> : 'Login'}</Button>
             </form>
         </Authentication>
     );

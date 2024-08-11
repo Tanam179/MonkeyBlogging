@@ -6,6 +6,7 @@ const FieldStyles = styled.div`
     flex-direction: column;
     gap: 10px;
     margin-bottom: 40px;
+    align-items: flex-start;
 `;
 
 const Field = ({ children, ...props }) => {

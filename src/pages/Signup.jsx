@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 
 import Label from '../components/label';
 import Input from '../components/input';
@@ -15,6 +15,7 @@ import Button from '../components/button';
 import LoadingSpinner from '../components/loading';
 import { auth, db } from '../firebase/firebaseConfig';
 import Authentication from './Authentication';
+import slugify from 'slugify';
 
 const schema = yup.object({
     fullName: yup
@@ -34,6 +35,7 @@ const schema = yup.object({
 });
 
 const Signup = () => {
+    
     const [toggleIcon, setToggleIcon] = useState('icon-eye');
     const navigate = useNavigate();
 
@@ -55,14 +57,14 @@ const Signup = () => {
         try {
             await createUserWithEmailAndPassword(auth, email, password);
             await updateProfile(auth.currentUser, { displayName: fullName });
-            const colRef = collection(db, 'users');
-            await addDoc(colRef, {
+            await setDoc(doc(db, 'users', auth.currentUser.uid), {
                 fullName,
                 email,
                 password,
+                userName: slugify(fullName, { replacement: '-', remove: /[*+~.,()'"!:@]/g, lower: true, locale: 'vi', trim: true })
             });
             toast.success('Created user successfully');
-            navigate('/login');
+            navigate('/');
         } catch (error) {
             toast.error(error.message);
         } finally {
@@ -114,7 +116,7 @@ const Signup = () => {
                     <p>Already have an account?</p>
                     <Link to="/login">Login now.</Link>
                 </div>
-                <Button type="submit">{isSubmitting ? <LoadingSpinner /> : 'Sign Up'}</Button>
+                <Button variation="primary" align="middle" type="submit">{isSubmitting ? <LoadingSpinner /> : 'Sign Up'}</Button>
             </form>
         </Authentication>
     );
